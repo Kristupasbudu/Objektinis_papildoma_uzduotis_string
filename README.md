@@ -1,3 +1,3 @@
 # Objektinis_pirmas_projektas
 
-0.1v
+v0.1 (su C stiliaus masyvais ir vektoriais)
