@@ -1,5 +1,14 @@
 # Objektinis_pirmas_projektas
 
+***v0.3***
+
++ Pridėti exception'ai, kurie patikrina ar skaitomas failas nėra tuščias arba neegzistuojantis.
++ Programoje naudojamos funkcijos yra perkeltos į atskirą .cpp failą.
++ **Mylib.h** yra papildytas naudojamų funkcijų antraštėmis ir struktūra.
+
+<br />
+<br />
+
 ***v0.2***
 
 +  Pridėta funkcija '*bufer_nusk'*, kuri atidaro pasirinktą failą ir perkelia duomenis į buferį iš kurio nuskaito duomenis į struktūrą, apksaičiuoja*'Galutinis (Vid.)'* bei  studento *'Galutinis (Med.)'* pažymius, kuriuos išveda į kitą failą jau surušiuotus pagal vardus.
