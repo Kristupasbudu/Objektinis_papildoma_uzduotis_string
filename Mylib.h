@@ -1,11 +1,19 @@
+#pragma once
 #include <iostream>
 #include <iomanip>
-#include <string>
-#include <algorithm>  
+#include <stdio.h>
+#include <stdlib.h>
+#include <fstream>
+#include <sstream>
 #include <vector>
+#include <chrono>
+#include <algorithm>
+#include <string>
 #include <limits>
 #include <stdexcept>
 #include <random> 
+#include <iterator>
+#include <stdio.h>
 
 using std::cout;
 using std::cin;
