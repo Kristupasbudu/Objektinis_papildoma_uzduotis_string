@@ -13,7 +13,7 @@
 #include <stdexcept>
 #include <random> 
 #include <iterator>
-#include <stdio.h>
+
 
 using std::cout;
 using std::cin;
@@ -41,5 +41,7 @@ struct studentas
 };
 
 void pild(studentas &temp);
-void bufer_nusk(string read_vardas, vector<studentas> &mas);
+void gen_file(double& diff1);
+void bufer_nusk(string read_vardas, vector<studentas> &mas, double& diff2);
+void write_to_file(const vector<studentas>& studentai, const string& vargs_file, const string& kiet_file, double& diff3, double& diff4, double& diff5);
 void spausd(studentas &temp);

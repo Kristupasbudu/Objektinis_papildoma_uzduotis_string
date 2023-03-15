@@ -1,6 +1,5 @@
 #include "Mylib.h"
 
-
 void pild(studentas &temp)
 {
     cout << "Iveskite varda ir pavarde: ";
@@ -88,17 +87,62 @@ void pild(studentas &temp)
     }
 }
 
-void bufer_nusk(string read_vardas, vector<studentas> &mas)
+void gen_file(double &diff1)
 {
-    auto start = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double> diff = std::chrono::high_resolution_clock::now() - start; // Skirtumas (s)
+    int sk;
+    cout << "Kiek irasu tukstanciais faile turi buti?";
+    cin >> sk;
+
+    auto start1 = std::chrono::high_resolution_clock::now();
+
+    // Aprasomas failo headeris bufferiui
+    std::ofstream out("kursiokai" + std::to_string(sk) + "k.txt");
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 10);
+
+    std::ostringstream vard_pav_str;
+    vard_pav_str << std::left << std::setw(25) << "Vardas" << std::left << std::setw(25) << "Pavarde";
+    std::string vard_pav = vard_pav_str.str();
+
+    std::ostringstream nd_str;
+    for (int i = 1; i <= 15; i++)
+    {
+        nd_str << std::left << std::setw(9) << "ND" + std::to_string(i);
+    }
+    std::string nd = nd_str.str();
+
+    std::ostringstream egz_str;
+    egz_str << std::left << std::setw(9) << "Egz.";
+    std::string egz = egz_str.str();
+
+    // naudojamas stringstream'as paruosti duomenis isvedinejimui
+    std::stringstream str_buff;
+    str_buff << vard_pav << nd << egz << std::endl;
+    for (int i = 0; i < sk * 1000; i++)
+    {
+        str_buff << std::left << std::setw(25) << "Vardas" + std::to_string(i + 1) << std::left << std::setw(25) << "Pavarde" + std::to_string(i + 1);
+        for (int j = 0; j < 15; j++)
+        {
+            str_buff << std::left << std::setw(9) << dist(gen);
+        }
+        str_buff << std::left << std::setw(9) << dist(gen) << std::endl;
+    }
+
+    // Vienu metu is buferio perkeliamas stringas i faila
+    out << str_buff.str();
+    out.close();
+
+    auto end1 = std::chrono::high_resolution_clock::now();
+    diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() / 1000000.0;
+}
+
+void bufer_nusk(string read_vardas, vector<studentas> &mas, double &diff2)
+{
+    auto start2 = std::chrono::high_resolution_clock::now();
 
     std::stringstream my_buffer;
     std::ifstream input_file(read_vardas);
-    if (!input_file.is_open())
-    {
-        throw std::runtime_error("Nepavyko atidaryti failo");
-    }
     my_buffer << input_file.rdbuf();
     input_file.close();
 
@@ -132,23 +176,74 @@ void bufer_nusk(string read_vardas, vector<studentas> &mas)
         double n = tempas.paz.size();
         tempas.gal = tempas.sum / n * 0.4 + tempas.egz * 0.6;
 
-        //  mediana
-        sort(tempas.paz.begin(), tempas.paz.end());
-        if ((int)n % 2 == 0)
+        mas.push_back(tempas);
+    }
+    auto end2 = std::chrono::high_resolution_clock::now();
+    diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() / 1000000.0;
+}
+
+void write_to_file(const vector<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
+{
+    std::ofstream vargs(vargs_file);
+    std::ofstream kiet(kiet_file);
+    vargs << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
+    kiet << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
+
+    vector<studentas> vargsiukai;
+    vector<studentas> kietiakai;
+
+    // Studentu skaidymas i dvi grupes
+    auto start5 = std::chrono::high_resolution_clock::now();
+
+    for (const auto &s : studentai)
+    {
+        if (s.gal < 5)
         {
-            int middle = n / 2;
-            tempas.med = 0.4 * ((tempas.paz[middle - 1] + tempas.paz[middle]) / 2.0) + 0.6 * tempas.egz;
+            vargsiukai.push_back(s);
         }
         else
         {
-            tempas.med = 0.4 * (tempas.paz[n / 2]) + 0.6 * tempas.egz;
+            kietiakai.push_back(s);
         }
-
-        mas.push_back(tempas);
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    diff = end - start;
-    cout << "Prog trukme: " << diff.count() << endl;
+
+    sort(kietiakai.begin(), kietiakai.end(),
+         [](const studentas &a, const studentas &b)
+         { return a.gal < b.gal; });
+    sort(vargsiukai.begin(), vargsiukai.end(),
+         [](const studentas &a, const studentas &b)
+         { return a.gal < b.gal; });
+
+    auto end5 = std::chrono::high_resolution_clock::now();
+    diff5 = std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() / 1000000.0;
+
+    // rasymas i kietiakai faila
+    auto start3 = std::chrono::high_resolution_clock::now();
+
+    char eilut[100];
+    for (const auto &s : kietiakai)
+    {
+        snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
+        kiet << eilut;
+    }
+
+    auto end3 = std::chrono::high_resolution_clock::now();
+    diff3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000000.0;
+
+    // rasymas i vargsiukai faila
+    auto start4 = std::chrono::high_resolution_clock::now();
+
+    for (const auto &s : vargsiukai)
+    {
+        snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
+        vargs << eilut;
+    }
+
+    auto end4 = std::chrono::high_resolution_clock::now();
+    diff4 = std::chrono::duration_cast<std::chrono::microseconds>(end4 - start4).count() / 1000000.0;
+
+    vargs.close();
+    kiet.close();
 }
 
 void spausd(studentas &temp)
