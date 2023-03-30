@@ -1,4 +1,4 @@
-#include "Mylib.h"
+#include "Mylib3.h"
 
 int main()
 {
@@ -6,7 +6,7 @@ int main()
     int kol = 0;
     string failas;
     studentas tempas;
-    vector<studentas> mas;
+    list<studentas> mas;
     double diff1, diff2, diff4, diff3, diff5, diff;
     cout << "Ar norite, nuskaityti duomenis is failo '1', jei ne - bet koks klavisas ";
     cin >> atsakymas;
@@ -66,11 +66,11 @@ int main()
             {
                 cout << "Failo " + failas + " kurimo laikas: " << diff1 << " (s)" << endl;
             }
-            cout << "Failo " + failas + " nyskaitymo i bufferi laikas: " << diff2 << " (s)" << endl;
-            cout << "Studentu rusiavimas i dvi grupes: " << diff5 << " (s)" << endl;
-            cout << "Studentu i kietiakai faila irasymo laikas: " << diff3 << " (s)" << endl;
-            cout << "Studentu i vargsiukai faila irasymo laikas: " << diff4 << " (s)" << endl;
-            diff = diff1 + diff2 + diff3 + diff4 + diff5;
+            cout << "Failo " + failas + " nuskaitymo i bufferi laikas: " << diff2 << " (s)" << endl;
+            cout << "Studentu sort'as: " << diff5 << " (s)" << endl;
+            cout << "Studentu grupavimas i dvi grupes: " << diff3 << " (s)" << endl;
+            // cout << "Studentu i vargsiukai faila irasymo laikas: " << diff4 << " (s)" << endl;
+            diff = diff2 + diff3 + diff5;
             cout << "\n Pilnas programos veikimo laikas: " << diff << " (s)" << endl;
             cout << "-------------------------------------------------------------------------------" << endl;
 
@@ -89,8 +89,6 @@ int main()
         } while (uzkl != 'n' && uzkl != 'N'); // Vartotojo uzklausa ar nori isvesti ivestus duomenis
         cout << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
         cout << "-------------------------------------------------------------------------------" << endl;
-        for (auto &i : mas)
-            spausd(i);
         for (auto &i : mas)
             i.paz.clear();
         mas.clear();

@@ -1,4 +1,4 @@
-#include "Mylib.h"
+#include "Mylib2.h"
 
 void pild(studentas &temp)
 {
@@ -137,7 +137,7 @@ void gen_file(double &diff1)
     diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count() / 1000000.0;
 }
 
-void bufer_nusk(string read_vardas, vector<studentas> &mas, double &diff2)
+void bufer_nusk(string read_vardas, deque<studentas> &mas, double &diff2)
 {
     auto start2 = std::chrono::high_resolution_clock::now();
 
@@ -182,18 +182,28 @@ void bufer_nusk(string read_vardas, vector<studentas> &mas, double &diff2)
     diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() / 1000000.0;
 }
 
-void write_to_file(const vector<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
+void write_to_file( deque<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
 {
     std::ofstream vargs(vargs_file);
     std::ofstream kiet(kiet_file);
     vargs << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
     kiet << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
 
-    vector<studentas> vargsiukai;
-    vector<studentas> kietiakai;
+    deque<studentas> vargsiukai;
+    deque<studentas> kietiakai;
 
-    // Studentu skaidymas i dvi grupes
+    // Studentu sort'as
     auto start5 = std::chrono::high_resolution_clock::now();
+
+    sort(studentai.begin(), studentai.end(),
+     [](const studentas &a, const studentas &b)
+         { return a.gal < b.gal; });
+
+    auto end5 = std::chrono::high_resolution_clock::now();
+    diff5 = std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() / 1000000.0;
+
+    // Studentu rusiavimas i dvi grupes
+    auto start3 = std::chrono::high_resolution_clock::now();
 
     for (const auto &s : studentai)
     {
@@ -207,40 +217,28 @@ void write_to_file(const vector<studentas> &studentai, const string &vargs_file,
         }
     }
 
-    sort(kietiakai.begin(), kietiakai.end(),
-         [](const studentas &a, const studentas &b)
-         { return a.gal < b.gal; });
-    sort(vargsiukai.begin(), vargsiukai.end(),
-         [](const studentas &a, const studentas &b)
-         { return a.gal < b.gal; });
-
-    auto end5 = std::chrono::high_resolution_clock::now();
-    diff5 = std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() / 1000000.0;
-
-    // rasymas i kietiakai faila
-    auto start3 = std::chrono::high_resolution_clock::now();
-
-    char eilut[100];
-    for (const auto &s : kietiakai)
-    {
-        snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
-        kiet << eilut;
-    }
-
     auto end3 = std::chrono::high_resolution_clock::now();
     diff3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000000.0;
 
-    // rasymas i vargsiukai faila
-    auto start4 = std::chrono::high_resolution_clock::now();
 
-    for (const auto &s : vargsiukai)
-    {
-        snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
-        vargs << eilut;
-    }
+    // char eilut[100];
+    // for (const auto &s : kietiakai)
+    // {
+    //     snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
+    //     kiet << eilut;
+    // }
 
-    auto end4 = std::chrono::high_resolution_clock::now();
-    diff4 = std::chrono::duration_cast<std::chrono::microseconds>(end4 - start4).count() / 1000000.0;
+    // // rasymas i vargsiukai faila
+    // auto start4 = std::chrono::high_resolution_clock::now();
+
+    // for (const auto &s : vargsiukai)
+    // {
+    //     snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
+    //     vargs << eilut;
+    // }
+
+    // auto end4 = std::chrono::high_resolution_clock::now();
+    // diff4 = std::chrono::duration_cast<std::chrono::microseconds>(end4 - start4).count() / 1000000.0;
 
     vargs.close();
     kiet.close();
