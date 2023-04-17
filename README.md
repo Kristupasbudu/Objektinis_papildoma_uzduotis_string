@@ -1,5 +1,44 @@
 # Objektinis_pirmas_projektas
 
+***v1.0***
+
++ Grupavimo trukmė su skirtingomis strategijomis ir konteineriais.
+
+Grupavimas su vector:
+|                            	| 1000     	| 10 000   	| 100 000  	| 1 000 000 	| 10 000 000 	|
+|----------------------------	|----------	|----------	|----------	|-----------	|------------	|
+| 1 strategija               	| 0.000327 	| 0.003722 	| 0.034016 	| 0.348033  	| 3.94183    	|
+| 2 strategija               	| 0.022993 	| 2.3102   	| 229.912  	| -         	| -          	|
+| 2 strategija (optimizuota) 	| 0.000178 	| 0.001309 	| 0.01441  	| 0.157643  	| 1.95531    	|
+
+Grupavimas su deque:
+|                            	| 1000     	| 10 000   	| 100 000  	| 1 000 000 	| 10 000 000 	|
+|----------------------------	|----------	|----------	|----------	|-----------	|------------	|
+| 1 strategija               	| 0.000671 	| 0.006109 	| 0.065554 	| 0.681644  	| 30.7498    	|
+| 2 strategija               	| 0.000397 	| 0.003656 	| 0.04507  	| 0.519973  	| 6.86625    	|
+| 2 strategija (optimizuota) 	| 0.00059  	| 0.004427 	| 0.051361 	| 0.571559  	| 25.7473    	|
+
+Grupavimas su list:
+
+|                            	| 1000     	| 10 000   	| 100 000  	| 1 000 000 	| 10 000 000 	|
+|----------------------------	|----------	|----------	|----------	|-----------	|------------	|
+| 1 strategija               	| 0.001969 	| 0.018113 	| 0.214459 	| 2.52226   	| 26.2256    	|
+| 2 strategija               	| 0.001381 	| 0.013322 	| 0.150915 	| 1.65681   	| 18.6315    	|
+| 2 strategija (optimizuota) 	| 0.000528 	| 0.007315 	| 0.091193 	| 1.07711   	| 13.6868    	|
+
+
++ **Naudojimosi instrukcija**:
+  + Instaliuotis terminilą su *git bash*.
+  + Instaliuotis *mingw* bei *make*.
+  + Įsijungti *Git bash* ir nueiti su *cd* į projekto folder'į su kodu.
+  + Į komandinę eilutę įvesti norimą komandą:
+    + *make vector* kompiliuoja ir paleidžia kodą su vector tipo konteineriu.
+    + *make deque* kompiliuoja ir paleidžia kodą su deque tipo konteineriu.
+    + *make list* kompiliuoja ir paleidžia kodą su list tipo konteineriu.
+
+<br />
+<br />
+
 ***v0.5***
 + Pridėtas kodas, kuris naudoja *deque* tipo konteinerį vietoj *vector*.
 + Pridėtas kodas, kuris naudoja *list* tipo konteinerį vietoj *vector*.
