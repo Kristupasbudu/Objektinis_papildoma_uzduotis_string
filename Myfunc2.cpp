@@ -182,66 +182,88 @@ void bufer_nusk(string read_vardas, deque<studentas> &mas, double &diff2)
     diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() / 1000000.0;
 }
 
-void write_to_file( deque<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
+void write_to_file(deque<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
 {
-    std::ofstream vargs(vargs_file);
-    std::ofstream kiet(kiet_file);
-    vargs << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
-    kiet << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(20) << "Galutinis (Vid.)" << endl;
-
-    deque<studentas> vargsiukai;
     deque<studentas> kietiakai;
+    deque<studentas> vargsiukai;
+    int code;
+    cout << "Spauskite 1, naudoti 1 strategija || 2, naudoti 2 strategija || 3 naudoti patobulinta 2 strategija: ";
+    cin >> code;
 
     // Studentu sort'as
     auto start5 = std::chrono::high_resolution_clock::now();
 
     sort(studentai.begin(), studentai.end(),
-     [](const studentas &a, const studentas &b)
+         [](const studentas &a, const studentas &b)
          { return a.gal < b.gal; });
 
     auto end5 = std::chrono::high_resolution_clock::now();
     diff5 = std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() / 1000000.0;
 
-    // Studentu rusiavimas i dvi grupes
+    // Studentu grupavimas i dvi grupes
+
     auto start3 = std::chrono::high_resolution_clock::now();
 
-    for (const auto &s : studentai)
+    switch (code)
     {
-        if (s.gal < 5)
+    case 1:
+    {
+        for (const auto &s : studentai)
         {
-            vargsiukai.push_back(s);
+            if (s.gal < 5)
+            {
+                vargsiukai.push_back(s);
+            }
+            else
+            {
+                kietiakai.push_back(s);
+            }
         }
-        else
+        break;
+    }
+    case 2:
+    {
+        auto it = studentai.begin();
+        while (it != studentai.end())
         {
-            kietiakai.push_back(s);
+            if (it->gal < 5)
+            {
+                vargsiukai.push_back(*it);
+                it = studentai.erase(it);
+            }
+            else
+            {
+                ++it;
+            }
         }
+        break;
+    }
+    case 3:
+    {
+        auto it = remove_if(studentai.begin(), studentai.end(), [](const studentas &s)
+                            { return s.gal < 5; });
+        vargsiukai.assign(it, studentai.end());
+        studentai.erase(it, studentai.end());
+        break;
+    }
+    default:
+        cout << "Netinkama ivestis. Paleidziama pirma strategija" << endl;
+        for (const auto &s : studentai)
+        {
+            if (s.gal < 5)
+            {
+                vargsiukai.push_back(s);
+            }
+            else
+            {
+                kietiakai.push_back(s);
+            }
+        }
+        break;
     }
 
     auto end3 = std::chrono::high_resolution_clock::now();
     diff3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000000.0;
-
-
-    // char eilut[100];
-    // for (const auto &s : kietiakai)
-    // {
-    //     snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
-    //     kiet << eilut;
-    // }
-
-    // // rasymas i vargsiukai faila
-    // auto start4 = std::chrono::high_resolution_clock::now();
-
-    // for (const auto &s : vargsiukai)
-    // {
-    //     snprintf(eilut, sizeof(eilut), "%-15s%-20s%-10.2f\n", s.vardas.c_str(), s.pavarde.c_str(), s.gal);
-    //     vargs << eilut;
-    // }
-
-    // auto end4 = std::chrono::high_resolution_clock::now();
-    // diff4 = std::chrono::duration_cast<std::chrono::microseconds>(end4 - start4).count() / 1000000.0;
-
-    vargs.close();
-    kiet.close();
 }
 
 void spausd(studentas &temp)
