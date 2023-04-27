@@ -2,8 +2,11 @@
 
 void pild(studentas &temp)
 {
+    string vardas, pavarde;
     cout << "Iveskite varda ir pavarde: ";
-    cin >> temp.vardas >> temp.pavarde;
+    cin >> vardas >> pavarde;
+    temp.setVardas(vardas);
+    temp.setPavarde(pavarde);
     // Paklausiama vartotojo ar jis nori pats suvesti duomenis ar atsitiktinius
     char ats;
     cout << "Ar norite uzpildyti namu darbu ir egzamino pazymius rankiniu budu? (y/n)";
@@ -15,9 +18,9 @@ void pild(studentas &temp)
         std::uniform_int_distribution<int> dist(0, 10);
         for (int i = 0; i < 10; i++)
         {
-            temp.paz.push_back(dist(gen));
+            temp.getPazymiai().push_back(dist(gen));
         }
-        temp.egz = dist(gen);
+        temp.setEgzaminas(dist(gen));
     }
     else
     {
@@ -34,7 +37,7 @@ void pild(studentas &temp)
                     int x = stoi(input);
                     if (x >= 0 && x <= 10) // tikrinimas ar nd skaicius yra [0;10]
                     {
-                        temp.paz.push_back(x);
+                        temp.getPazymiai().push_back(x);
                     }
                     else
                     {
@@ -48,7 +51,7 @@ void pild(studentas &temp)
             }
             cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            if (temp.paz.size() > 0)
+            if (temp.getPazymiai().size() > 0)
             {
                 valid_input = true;
             }
@@ -69,7 +72,7 @@ void pild(studentas &temp)
                 int egz = stoi(egz_input);
                 if (egz >= 0 && egz <= 10) // tikrinimas ar egzamino skaicius yra [0;10]
                 {
-                    temp.egz = egz;
+                    temp.setEgzaminas(egz);
                     egz_valid_input = true;
                 }
                 else
@@ -149,53 +152,55 @@ void bufer_nusk(string read_vardas, vector<studentas> &mas, double &diff2)
     string line;
     getline(my_buffer, line);
     std::istringstream iss(line);
-    int num_strings = std::count_if(std::istream_iterator<std::string>(iss),
-                                    std::istream_iterator<std::string>(),
-                                    [](const std::string &str)
-                                    { return std::any_of(str.begin(), str.end(), [](char c)
-                                                         { return !isspace(c); }); });
+    int num_strings = std::count_if(
+        std::istream_iterator<std::string>(iss),
+        std::istream_iterator<std::string>(),
+        [](const std::string &str)
+        { return std::any_of(str.begin(), str.end(), [](char c)
+                             { return !isspace(c); }); });
 
     while (getline(my_buffer, line))
     {
         std::istringstream iss(line);
         studentas tempas;
 
-        iss >> tempas.vardas >> tempas.pavarde;
+        string temp_vardas, temp_pavarde;
+        iss >> temp_vardas >> temp_pavarde;
+        tempas.setVardas(temp_vardas);
+        tempas.setPavarde(temp_pavarde);
 
         for (int i = 0; i < num_strings - 3; i++)
         {
             int paz;
             iss >> paz;
-            tempas.paz.push_back(paz);
+            tempas.getPazymiai().push_back(paz);
         }
-        tempas.sum = accumulate(tempas.paz.begin(), tempas.paz.end(), 0);
 
-        iss >> tempas.egz;
+        tempas.setSum(accumulate(tempas.getPazymiai().begin(), tempas.getPazymiai().end(), 0));
+
+        double egz;
+        iss >> egz;
+        tempas.setEgzaminas(egz);
 
         // galutinis balas
-        double n = tempas.paz.size();
-        tempas.gal = tempas.sum / n * 0.4 + tempas.egz * 0.6;
+        double n = tempas.getPazymiai().size();
+        tempas.setGalutinis(tempas.getSum() / n * 0.4 + tempas.getEgzaminas() * 0.6);
 
         mas.push_back(tempas);
     }
+
     auto end2 = std::chrono::high_resolution_clock::now();
     diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count() / 1000000.0;
 }
 
 void write_to_file(vector<studentas> &studentai, const string &vargs_file, const string &kiet_file, double &diff3, double &diff4, double &diff5)
 {
-    vector<studentas> kietiakai;
     vector<studentas> vargsiukai;
-    int code;
-    cout << "Spauskite 1, naudoti 1 strategija || 2, naudoti 2 strategija || 3 naudoti patobulinta 2 strategija: ";
-    cin >> code;
 
     // Studentu sort'as
     auto start5 = std::chrono::high_resolution_clock::now();
 
-    sort(studentai.begin(), studentai.end(),
-         [](const studentas &a, const studentas &b)
-         { return a.gal < b.gal; });
+    sort(studentai.begin(), studentai.end());
 
     auto end5 = std::chrono::high_resolution_clock::now();
     diff5 = std::chrono::duration_cast<std::chrono::microseconds>(end5 - start5).count() / 1000000.0;
@@ -204,88 +209,32 @@ void write_to_file(vector<studentas> &studentai, const string &vargs_file, const
 
     auto start3 = std::chrono::high_resolution_clock::now();
 
-    switch (code)
-    {
-    case 1:
-    {
-        for (const auto &s : studentai)
-        {
-            if (s.gal < 5)
-            {
-                vargsiukai.push_back(s);
-            }
-            else
-            {
-                kietiakai.push_back(s);
-            }
-        }
-        break;
-    }
-    case 2:
-    {
-        auto it = studentai.begin();
-        while (it != studentai.end())
-        {
-            if (it->gal < 5)
-            {
-                vargsiukai.push_back(*it);
-                it = studentai.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
-        break;
-    }
-    case 3:
-    {
-        auto it = remove_if(studentai.begin(), studentai.end(), [](const studentas &s)
-                            { return s.gal < 5; });
-        vargsiukai.assign(it, studentai.end());
-        studentai.erase(it, studentai.end());
-        break;
-    }
-    default:
-        cout << "Netinkama ivestis. Paleidziama pirma strategija" << endl;
-        for (const auto &s : studentai)
-        {
-            if (s.gal < 5)
-            {
-                vargsiukai.push_back(s);
-            }
-            else
-            {
-                kietiakai.push_back(s);
-            }
-        }
-        break;
-    }
+    auto it = remove_if(studentai.begin(), studentai.end(), studentas());
+    vargsiukai.assign(it, studentai.end());
+    studentai.erase(it, studentai.end());
 
     auto end3 = std::chrono::high_resolution_clock::now();
     diff3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000000.0;
+
 }
 
-void spausd(studentas &temp)
+void print_student_info(const studentas &student)
 {
-    cout << setw(15) << temp.vardas << setw(15) << temp.pavarde; // surenkamas vardas, pavarde
-    for (int i = 0; i < temp.paz.size(); i++)                    // suskaiciuojama pazymiu suma
-    {
-        temp.sum += temp.paz.at(i);
-    }
-    temp.gal = 0.4 * (temp.sum / temp.paz.size()) + 0.6 * temp.egz; // skaiciuojamas galutinis vidurkis
-    // skaiciuoma galutine mediana
-    sort(temp.paz.begin(), temp.paz.end());
-    int n = temp.paz.size();
+    double galutinis_vidurkis = 0.4 * (student.getSum() / student.getPazymiai().size()) + 0.6 * student.getEgzaminas();
+    double galutine_mediana = 0;
+    vector<int> pazymiai = student.getPazymiai();
+    sort(pazymiai.begin(), pazymiai.end());
+    int n = pazymiai.size();
     if (n % 2 == 0)
     {
         int middle = n / 2;
-        temp.med = 0.4 * ((temp.paz[middle - 1] + temp.paz[middle]) / 2.0) + 0.6 * temp.egz;
+        galutine_mediana = 0.4 * ((pazymiai[middle - 1] + pazymiai[middle]) / 2.0) + 0.6 * student.getEgzaminas();
     }
     else
     {
-        temp.med = 0.4 * (temp.paz[n / 2]) + 0.6 * temp.egz;
+        galutine_mediana = 0.4 * pazymiai[n / 2] + 0.6 * student.getEgzaminas();
     }
-    // isvedimas
-    cout << left << fixed << setprecision(2) << setw(20) << temp.gal << left << setw(20) << temp.med << endl;
+    cout << setw(15) << student.getVardas() << setw(15) << student.getPavarde()
+         << left << fixed << setprecision(2) << setw(20) << galutinis_vidurkis
+         << left << setw(20) << galutine_mediana << endl;
 }

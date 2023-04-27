@@ -5,7 +5,6 @@ int main()
     char atsakymas;
     int kol = 0;
     string failas;
-    studentas tempas;
     vector<studentas> mas;
     double diff1, diff2, diff4, diff3, diff5, diff;
     cout << "Ar norite, nuskaityti duomenis is failo '1', jei ne - bet koks klavisas ";
@@ -16,7 +15,7 @@ int main()
         do
         {
             char ats_kurti;
-            bool flag = 0;
+            bool flag = false;
             cout << "Ar norite naudoti jau esamus failus '1', sukurti faila bet koks kitas mygtukas?";
             cin >> ats_kurti;
 
@@ -24,12 +23,12 @@ int main()
             {
                 cout << "Kuriamas failas: " << endl;
                 gen_file(diff1);
-                flag = 1;
+                flag = true;
             }
 
             cout << "-------------------------------------------------------------------------------" << endl;
             cout << "Jusu aplanke esantys failai: " << endl;
-            system("dir /b *.txt");
+            system("dir /b kursiokai*.txt");
             cout << "-------------------------------------------------------------------------------" << endl;
             cout << "Is kokio failo norite nuskaityti duomenis? ";
             cin >> failas;
@@ -53,7 +52,7 @@ int main()
                 bufer_nusk(failas, mas, diff2);
                 kol = 1;
             }
-            catch (const exception &e)
+            catch (const std::exception &e)
             {
                 std::cerr << e.what() << endl;
             }
@@ -73,26 +72,30 @@ int main()
             diff = diff2 + diff3 + diff5;
             cout << "\n Pilnas programos veikimo laikas: " << diff << " (s)" << endl;
             cout << "-------------------------------------------------------------------------------" << endl;
-
         } while (kol != 1);
     }
     else
     {
         char uzkl = 'n';
+        studentas tempas; // create a new student object outside the loop
         do
         {
             pild(tempas);
             mas.push_back(tempas);
-            tempas.paz.clear();
-            cout << "Baigti darba spauskite n, testi - bet koks klavisas";
+            cout << "Baigti darba spauskite n, testi - bet koks klavisas" << endl;
             cin >> uzkl;
-        } while (uzkl != 'n' && uzkl != 'N'); // Vartotojo uzklausa ar nori isvesti ivestus duomenis
+        } while (uzkl != 'n' && uzkl != 'N');
+
         cout << left << setw(15) << "Pavarde" << setw(15) << "Vardas" << setw(20) << "Galutinis (Vid.)" << setw(20) << "Galutinis (Med.)" << endl;
         cout << "-------------------------------------------------------------------------------" << endl;
-        for (auto &i : mas)
-            spausd(i);
-        for (auto &i : mas)
-            i.paz.clear();
+        // for ( auto &student : mas)
+        // {
+        //     print_student_info(student);
+        // }
+        // for (auto &student : mas)
+        // {
+        //     student.getPazymiai().clear();
+        // }
         mas.clear();
     }
     return 0;
