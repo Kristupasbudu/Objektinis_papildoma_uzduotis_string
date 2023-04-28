@@ -3,7 +3,10 @@
 ***v1.1***
 
 + Atveju su struktūromis (vektoriai) su 100000 ir 1000000 studentų programa užima 376 KB.
-+ Atveju su klasėmis (vektoriai)  su 100000 ir 1000000 studentų programa užima 223 KB.
++ Atveju su klasėmis (vektoriai) (su o1 flag'u) su 100000 ir 1000000 studentų programa užima 211 KB.
++ Atveju su klasėmis (vektoriai) (su o2 flag'u) su 100000 ir 1000000 studentų programa užima 206 KB.
++ Atveju su klasėmis (vektoriai) (su o3 flag'u) su 100000 ir 1000000 studentų programa užima 217 KB.
+
 
 
 struct vector:
