@@ -211,32 +211,63 @@ void write_to_file(vector<studentas> &studentai, const string &vargs_file, const
 
     auto start3 = std::chrono::high_resolution_clock::now();
 
-    auto it = remove_if(studentai.begin(), studentai.end(), [](const studentas &s)
-                        { return s.getGalutinis() < 5; });
-    vargsiukai.assign(it, studentai.end());
-    studentai.erase(it, studentai.end());
+    auto partition_it = std::partition(studentai.begin(), studentai.end(),
+                                [](const auto& elem) { return elem.getGalutinis() < 5; });
+
+                            vargsiukai.insert(vargsiukai.end(), studentai.begin(), partition_it);
+                            studentai.erase(studentai.begin(), partition_it);
 
     auto end3 = std::chrono::high_resolution_clock::now();
     diff3 = std::chrono::duration_cast<std::chrono::microseconds>(end3 - start3).count() / 1000000.0;
+
+
+    //kietiakai
+
+    std::ofstream kiet(kiet_file);
+    kiet << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(10) << "Galutinis" << endl;
+    kiet << std::setfill('-') << setw(45) << "" << std::setfill(' ') << endl;
+
+    // char eilut[100];
+    for (const auto &s : studentai)
+    {
+        kiet << s;
+        // kiet << s.getVardas();
+    }
+    kiet.close();
+
+    // rasymas i vargsiukai faila
+
+    std::ofstream vargs(vargs_file);
+    vargs << left << setw(15) << "Vardas" << setw(20) << "Pavarde" << setw(10) << "Galutinis" << endl;
+    vargs << std::setfill('-') << setw(45) << "" << std::setfill(' ') << endl;
+
+    for (const auto &s : vargsiukai)
+    {
+        vargs << s;
+        // vargs << s.getVardas();
+    }
+    vargs.close();
 }
+
 
 void print_student_info(const studentas &student)
 {
-    double galutinis_vidurkis = 0.4 * (student.getSum() / student.getPazymiai().size()) + 0.6 * student.getEgzaminas();
-    double galutine_mediana = 0;
-    vector<int> pazymiai = student.getPazymiai();
-    sort(pazymiai.begin(), pazymiai.end());
-    int n = pazymiai.size();
-    if (n % 2 == 0)
-    {
-        int middle = n / 2;
-        galutine_mediana = 0.4 * ((pazymiai[middle - 1] + pazymiai[middle]) / 2.0) + 0.6 * student.getEgzaminas();
-    }
-    else
-    {
-        galutine_mediana = 0.4 * pazymiai[n / 2] + 0.6 * student.getEgzaminas();
-    }
-    cout << setw(15) << student.getVardas() << setw(15) << student.getPavarde()
-         << left << fixed << setprecision(2) << setw(20) << galutinis_vidurkis
-         << left << setw(20) << galutine_mediana << endl;
+    // double galutinis_vidurkis = 0.4 * (student.getSum() / student.getPazymiai().size()) + 0.6 * student.getEgzaminas();
+    // double galutine_mediana = 0;
+    // const vector<int>& pazymiai = student.getPazymiai();
+    // vector<int> sorted_pazymiai(pazymiai);
+    // sort(sorted_pazymiai.begin(), sorted_pazymiai.end());
+    // int n = sorted_pazymiai.size();
+    // if (n % 2 == 0)
+    // {
+    //     int middle = n / 2;
+    //     galutine_mediana = 0.4 * ((sorted_pazymiai[middle - 1] + sorted_pazymiai[middle]) / 2.0) + 0.6 * student.getEgzaminas();
+    // }
+    // else
+    // {
+    //     galutine_mediana = 0.4 * sorted_pazymiai[n / 2] + 0.6 * student.getEgzaminas();
+    // }
+    // cout << setw(15) << student.getVardas() << setw(15) << student.getPavarde()
+    //      << left << fixed << setprecision(2) << setw(20) << galutinis_vidurkis
+    //      << left << setw(20) << galutine_mediana << endl;
 }
