@@ -1,5 +1,14 @@
 # Objektinis_antras_projektas
 
+***v1.2***
+
+
++ Patobulinta klasė, kuri turi copy ir move konstrutkroius.  
++ Pridėta friend funcija operatoriui.
+
+<br />
+<br />
+
 ***v1.1***
 
 + Atveju su struktūromis (vektoriai) su 100000 ir 1000000 studentų programa užima 376 KB.
