@@ -2,7 +2,6 @@
 
 int main()
 {
-  
     studentas stud1;
     stud1.setVardas("Vardenis");
     stud1.setPavarde("Pavardenis");
@@ -15,8 +14,8 @@ int main()
     studentas stud4;
     stud4 = stud3;
 
-    studentas stud5;
-    stud5 = std::move(stud4);
+    studentas stud5{studentas()};
+    // stud5  = std::move(stud4);
 
     std::cout << "Stud1: " << stud1 << std::endl;
     std::cout << "Stud2: " << stud2 << std::endl;
@@ -123,7 +122,7 @@ int main()
         // {
         //     student.getPazymiai().clear();
         // }
-        mas.clear();
+        // mas.clear();
     }
     return 0;
 }
