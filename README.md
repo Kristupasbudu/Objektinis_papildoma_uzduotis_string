@@ -7,7 +7,13 @@
 + Faile *test.cpp* yra programos realizuotas unit testingas, kuris realizuotas pridėjus *cath.hpp* biblioteką.
 + Sukurtas automatinis įdiegimo failas.
 
-+ Naudojimosi instrukcija:
++ **Programos naudojimosi instrucija su makefile.**
+  + Instaliuotis terminilą su *git bash*.
+  + Instaliuotis *mingw* bei *make*.
+  + Įsijungti *Git bash* ir nueiti su *cd* į projekto folder'į su kodu.
+  + Į komandinę eilutę įvesti *make*
+
++ **Programos įdiegimo instrukcija su setup:**
   + Parsisiųsti ProgramInstallSetup aplanką.
   + Nukeliatit į programos setup direktoriją. (ProgramInstallSetup\Debug)
   + Pasileisti *setup.exe*
