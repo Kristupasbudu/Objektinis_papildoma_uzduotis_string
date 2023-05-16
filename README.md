@@ -1,7 +1,7 @@
 # Objektinis_antras_projektas
 
 
-***v1.3***
+***v1.5***
 
 
 + Pridėta *zmogus* abstrakti klasė.
