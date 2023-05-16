@@ -1,5 +1,21 @@
 # Objektinis_antras_projektas
 
+***v2.0***
+
+
++ Yra įkeltas programos html aplankalas, kurį pasileidus galima apžiūrėti programos sudėtį naudotojui aiškesniu būdu.
++ Faile *test.cpp* yra programos realizuotas unit testingas, kuris realizuotas pridėjus *cath.hpp* biblioteką.
++ Sukurtas automatinis įdiegimo failas.
+
++ Naudojimosi instrukcija:
+  + Parsisiųsti ProgramInstallSetup aplanką.
+  + Nukeliatit į programos setup direktoriją. (ProgramInstallSetup\Debug)
+  + Pasileisti *setup.exe*
+  + Instaliuoti į norimą direktoriją ir tada paleisti programą.
+
+<br />
+<br />
+
 
 ***v1.5***
 
