@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <sstream>
-#include <vector>
+// #include <vector>
 #include <chrono>
 #include <algorithm>
 #include <string>
@@ -14,6 +14,7 @@
 #include <random>
 #include <iterator>
 #include <numeric>
+#include "vektorius.h"
 
 using std::cin;
 using std::copy;
@@ -26,7 +27,7 @@ using std::right;
 using std::setprecision;
 using std::setw;
 using std::string;
-using std::vector;
+// using std::vector;
 
 class zmogus {
 protected:

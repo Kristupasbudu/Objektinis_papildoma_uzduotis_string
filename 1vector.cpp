@@ -2,32 +2,6 @@
 
 int main()
 {
-    studentas stud1;
-    stud1.setVardas("Vardenis");
-    stud1.setPavarde("Pavardenis");
-    stud1.setGalutinis(9.5);
-
-    studentas stud2 = stud1;
-
-    studentas stud3 = std::move(stud2);
-  
-    studentas stud4;
-    stud4 = stud3;
-
-    studentas stud5{studentas()};
-    // stud5  = std::move(stud4);
-
-    std::cout << "Stud1: " << stud1 << std::endl;
-    std::cout << "Stud2: " << stud2 << std::endl;
-    std::cout << "Stud3: " << stud3 << std::endl;
-    std::cout << "Stud4: " << stud4 << std::endl;
-    std::cout << "Stud5: " << stud5 << std::endl;
-
-
-
-
-    
-    
     char atsakymas;
     int kol = 0;
     string failas;

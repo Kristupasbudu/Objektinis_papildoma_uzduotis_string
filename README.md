@@ -1,7 +1,50 @@
-# Objektinis_antras_projektas
+# Objektinis_trečias_projektas
+
+***v3.0***
+
++ Failai *Mylib1.h* *Myfunc1.cpp* *1vector.cpp* ir *vektorius.h* yra **V2.0** realizacija su savuoju vektoriumi.
++ *Vektorius.h* yra biblioteka su savuoju vektoriumi.
++ *testing.h* yra failas su keliomis savo vektoriaus veikimo testais.
++ *Palyginimas.cpp* yra failas, kuriame yra lyginami push_back() su std::vector ir savuoju vektoriumi.
+
+
++ Lyginami push_back() funkcijos atlikimo laiką su std::vector ir savuoju vektoriumi:
+
+|                	| 10 000    	| 100 000   	| 1 000 000 	| 10 000 000 	| 100 000 000 	|
+|----------------	|-----------	|-----------	|-----------	|------------	|-------------	|
+| Mano vektorius 	| 0.0001732 	| 0.001561  	| 0.0129879 	| 0.14427    	| 1.3565      	|
+| std::vector    	| 0.000125  	| 0.0011429 	| 0.0091693 	| 0.0926581  	| 0.915079    	|
+
+
+----------------------------------------------------------------------------
+Testuojama vektoriaus klase:
+
+1.   Pries reserve(20) panaudojima: 4\
+     Po reserve(20) panaudojima: 20
+2.   Pries shrink_to_fit panaudojima: 20\
+     Po shrink_to_fit panaudojima: 4\
+Vektoriu sudaro: 10 20 30 40
+3.   Ar vektorius yra tuscias? Ne
+4.   Vektoriu sudaro po erase(): 20 30 40
+5.   Vektoriu sudaro po pop_back(): 20 30
+----------------------------------------------------------------------------
+
+Testuojama std::vector
+
+1.   Pries reserve(20) panaudojima: 4\
+     Po reserve(20) panaudojima: 20
+2.   Pries shrink_to_fit panaudojima: 20\
+     Po shrink_to_fit panaudojima: 4\
+Vektoriu sudaro: 10 20 30 40
+3.   Ar vektorius yra tuscias? Ne
+4.    Vektoriu sudaro po erase():20 30 40
+5.   Vektoriu sudaro po pop_back(): 20 30
+
+<br />
+<br />
+
 
 ***v2.0***
-
 
 + Yra įkeltas programos html aplankalas, kurį pasileidus galima apžiūrėti programos sudėtį naudotojui aiškesniu būdu.
 + Faile *test.cpp* yra programos realizuotas unit testingas, kuris realizuotas pridėjus *cath.hpp* biblioteką.
