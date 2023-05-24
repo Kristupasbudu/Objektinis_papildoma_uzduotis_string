@@ -16,6 +16,9 @@
 | std::vector    	| 0.000125  	| 0.0011429 	| 0.0091693 	| 0.0926581  	| 0.915079    	|
 
 
++ Reallocation skaičius su 10 000 000 įrašų yra 25 tiek su std::vector, tiek su savuoju.
+
+
 ----------------------------------------------------------------------------
 Testuojama vektoriaus klase:
 
