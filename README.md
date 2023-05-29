@@ -1,4 +1,20 @@
-# Objektinis_trečias_projektas
+# Objektinis_papildoma_užduotis
+**vString**
+
++ **Programos veikimas:**
+     + Programa nuskaito įvesties failą ir eidamas, kas eilutę ieško unikalių žodžių bei URL.
+     + Nuskaičiusi įvesties failą, programa išveda į išvesties failą rastą unikalų žodį ir kiek kartų jis buvo pakartotas.
+     + Taip pat išvesdamas cross-reference, kur yra parašytas unikalus žodis ir kuriose eilutėse jis buvo rastas.
+     + Galiausiai, išvedami rasti URL.
++ Faile *String.cpp* yra funcija *ZodziuIsgavimas*, kurioje inicializuojama aibė unikaliems žodžiams saugoti, iteruojami tam tikroje eilutėje esantys atitikmenys, išskiriami sutapę žodžiai ir įterpiami į aibę.
++ Funkcija *URLs_eiluteje* įveda teksto eilutę, ieško URL adresų pagal reguliariosios išraiškos šabloną ir išskiria galiojančius URL adresus, tikrindama, ar juose yra priešdėliai "https://" arba "www.". Išskirti URL adresai saugomi rinkinyje ir grąžinami kaip rezultatas.
+
++ **naudojimos instrukcija**
+     + Reikia susikurti tame pačiame aplanke *tekstas.txt* failą, kuriame būtų įklijuotas nagrinėjamas tekstas.
+     + Susikompiliuoti String.cpp ir programos rezultatas bus išvedamas *rezultatai.txt*.
+
+<br />
+<br />
 
 ***v3.0***
 
